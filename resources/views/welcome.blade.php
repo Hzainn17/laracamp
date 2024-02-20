@@ -17,7 +17,7 @@
                                 Our bootcamp is helping junior developers who <br> are really passionate in the programming.
                             </p>
                             <p class="cta">
-                                <a href="#" class="btn btn-master btn-primary">
+                                <a href="story" class="btn btn-master btn-primary">
                                     Get Started
                                 </a>
                             </p>

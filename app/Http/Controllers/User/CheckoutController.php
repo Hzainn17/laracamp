@@ -5,9 +5,11 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Checkout;
 use App\Http\Requests\User\Checkout\Store;
+use App\Mail\Checkot\AfterCheckout;
 use Illuminate\Http\Request;
 use App\Models\Camp;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -26,7 +28,7 @@ class CheckoutController extends Controller
     {
         if ($camp->isRegistered) {
             $request->session()->flash('error', "You already registered on {$camp->title} camp.");
-            return redirect(route('dashboard'));
+            return redirect(route('user.dashboard'));
         }
 
         return view('checkout.create', [
@@ -52,6 +54,9 @@ class CheckoutController extends Controller
 
         //create checkout
         $checkout = Checkout::create($data);
+
+        //sending email
+        Mail::to(Auth::user())->send(new AfterCheckout($checkout));
 
         return redirect(route('checkout.success'));
     }

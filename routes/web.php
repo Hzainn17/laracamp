@@ -23,14 +23,13 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-
-
-//Route::get('/dashboard', function () {
-//  return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
+//socialite route
 Route::get('sign-in-google', [UserController::class, 'google'])->name('user.login.google');
 Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('user.login.callback');
+
+//midtrans route
+Route::get('payment/success', [CheckoutController::class, 'midtransCallback']);
+Route::post('payment/success', [CheckoutController::class, 'midtransCallback']);
 
 Route::middleware('auth')->group(function () {
     // checkout route

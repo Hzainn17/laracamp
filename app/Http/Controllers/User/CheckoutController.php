@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Camp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Psy\Util\Str;
+use Illuminate\Support\Str;
 use Midtrans;
 use Exception;
 
@@ -61,6 +61,8 @@ class CheckoutController extends Controller
         $user->email = $data['email'];
         $user->name = $data['name'];
         $user->occupation = $data['occupation'];
+        $user->phone = $data['phone'];
+        $user->address = $data['address'];
         $user->save();
 
         //create checkout

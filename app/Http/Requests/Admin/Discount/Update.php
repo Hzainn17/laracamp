@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\User\Checkout;
+namespace App\Http\Requests\Admin\Discount;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class Store extends FormRequest
+class Update extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return Auth::check() && Auth::user()->is_admin;
     }
 
     /**
@@ -22,14 +22,11 @@ class Store extends FormRequest
      */
     public function rules(): array
     {
-        $expiredValidation = date('Y-m', time());
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.Auth::id().',id',
-            'occupation' => 'required',
-            'phone' => 'required|string',
-            'address' => 'required|string',
-            'discount'=>'nullable|string|exists:discounts,code,deleted_at,NULL'
+            'name'=>'required|string',
+            'code'=>'required|string|max:5|unique:discounts,code,'.$this->id.'.id',
+            'description'=>'string|nullable',
+            'percentage'=>'required|min:1|max:100|numeric'
         ];
     }
 }
